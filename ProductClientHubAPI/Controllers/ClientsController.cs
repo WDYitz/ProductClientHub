@@ -2,6 +2,7 @@ using ProductClientHubAPI.Http.Requests;
 using ProductClientHubAPI.Http.Responses;
 using Microsoft.AspNetCore.Mvc;
 using ProductClientHubAPI.UseCases.Clients.Register;
+using ProductClientHubAPI.ExceptionsBase;
 
 namespace ProductClientHubAPI.Controllers;
 
@@ -14,21 +15,10 @@ public class ClientsController : ControllerBase
   [ProducesResponseType(typeof(ResponseErrorMessageJson), StatusCodes.Status400BadRequest)]
   public IActionResult Register([FromBody] RequestClientJson request)
   {
-    try
-    {
-      var registerClientUseCase = new RegisterClientUseCase();
-      var response = registerClientUseCase.Execute(request);
+    var registerClientUseCase = new RegisterClientUseCase();
+    var response = registerClientUseCase.Execute(request);
 
-      return Created(string.Empty, response);
-    }
-    catch (ArgumentException ex)
-    {
-      return BadRequest(new ResponseErrorMessageJson(ex.Message));
-    }
-    catch
-    {
-      return StatusCode(StatusCodes.Status500InternalServerError, new ResponseErrorMessageJson("ERRO DESCONHECIDO"));
-    }
+    return Created(string.Empty, response);
   }
 
   [HttpPut]

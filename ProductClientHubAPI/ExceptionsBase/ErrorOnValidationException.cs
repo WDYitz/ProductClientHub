@@ -1,0 +1,19 @@
+using System.Net;
+
+namespace ProductClientHubAPI.ExceptionsBase;
+
+public class ErrorOnValidationException : ProductClientHubException
+{
+  private readonly List<string> _errors;
+  public ErrorOnValidationException(List<string> message) : base(string.Empty)
+  {
+    _errors = message;
+  }
+
+  public override List<string> GetErrors()
+  {
+    return _errors;
+  }
+
+  public override HttpStatusCode GetHttpStatusCode() => HttpStatusCode.BadRequest;
+}

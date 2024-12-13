@@ -4,11 +4,13 @@
     build:
       context: .
       dockerfile: ProductClientHubAPI/Dockerfile
-  database:
-    image: postgres:latest
+  postgres:
+    image: bitnami/postgresql:latest
+    ports:
+      - '5432:5432'
     environment:
-      POSTGRES_USER: "docker"
-      POSTGRES_PASSWORD: "docker"
-      POSTGRES_DB: "ProductClientHub"
-    port:
-      - "5432:5432"
+      - POSTGRESQL_USERNAME=${POSTGRES_USER}
+      - POSTGRESQL_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRESQL_DATABASE=${POSTGRES_DB}
+    volumes:
+      - postgres_data:/bitnami/postgresql

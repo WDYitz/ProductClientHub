@@ -1,3 +1,4 @@
+using ProductClientHubAPI.ExceptionsBase;
 using ProductClientHubAPI.Http.Requests;
 using ProductClientHubAPI.Http.Responses;
 
@@ -12,7 +13,8 @@ public class RegisterClientUseCase
 
     if (!result.IsValid)
     {
-      throw new ArgumentException("Erro de validação");
+      var errors = result.Errors.Select(e => e.ErrorMessage).ToList();
+      throw new ErrorOnValidationException(errors);
     }
 
     return new ResponseClientJson();
